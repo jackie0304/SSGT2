@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ssgt">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +25,11 @@
         </activity>
         <activity android:name=".InterestActivity">
 
+        </activity>
+        <activity android:name=".MenuActivity">
+        </activity>
+
+        <activity android:name=".MyPageActivity" android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
     </application>
