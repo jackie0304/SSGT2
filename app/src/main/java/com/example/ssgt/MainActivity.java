@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//  메인메뉴 가는 코드
-//        Toast.makeText(getApplicationContext(),"dd",Toast.LENGTH_LONG);
-//        Intent intent = new Intent(getApplicationContext(), MenuActivity.class );
-//        startActivity(intent);
+  //메인메뉴 가는 코드
+        Toast.makeText(getApplicationContext(),"dd",Toast.LENGTH_LONG);
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class );
+        startActivity(intent);
 
         btn_login = (Button)findViewById(R.id.login);
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-        //hi
+        //hi branch되나볼까나
 
 
 
