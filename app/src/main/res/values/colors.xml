@@ -7,4 +7,9 @@
     <color name="grayColor">#C6C6CB</color>
     <color name="greenColor">#9ACC61</color>
     <color name="Dcolor">#8FAADC</color>
+    <color name="red">#F25850</color>
+    <color name="pink">#FFAA96</color>
+    <color name="ibory">#FEEED5</color>
+    <color name="gray">#586667</color>
+    <color name="navy">#253245</color>
 </resources>

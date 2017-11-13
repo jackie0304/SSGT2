@@ -1,10 +1,12 @@
 package com.example.ssgt;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 public class MenuActivity extends AppCompatActivity {
 
     TextView txt_mypage;
+    TextView title;
+    //Toolbar toolbar;
     ListView listview ;
     ListViewMyClassAdapter adapter;
     Button search_job, apply_job, apply_class;
@@ -23,10 +27,13 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
+        //Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
+        //setSupportActionBar(toolbar);
         init();
     }
     public void init(){
         txt_mypage = (TextView) findViewById(R.id.txt_myclass);
+        title = (TextView)findViewById(R.id.title);
         search_job = (Button)findViewById(R.id.search_job);
         apply_class = (Button)findViewById(R.id.apply_class);
         apply_job = (Button)findViewById(R.id.apply_job);
@@ -67,6 +74,25 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    public void gotoLectureMenu(View v){
+        //frameLayout.setVisibility(View.INVISIBLE);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.frameLayout,new LectureActivity())
+//                .commit();
+        Intent intent = new Intent(getApplicationContext(), LectureActivity.class);
+        //title.setText("test3");
+        startActivity(intent);
+    }
+    public void gotoClubMenu(View v){
+        //frameLayout.setVisibility(View.INVISIBLE);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.frameLayout,new LectureActivity())
+//                .commit();
+        Intent intent = new Intent(getApplicationContext(), ClubActivity.class);
+        startActivity(intent);
+    }
     public void showClassList(){
 
         //내 디비 정보 받아와서
