@@ -2,6 +2,7 @@ package com.example.ssgt;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,8 @@ public class InsertDataTask extends AsyncTask<String,Integer,String> {
     protected void onPostExecute(String s) {
         if(s.equals("InsertOK")){
             Log.d("ddd","ddddddddddddddddddddddddddddddd");
-            new DownloadWebPageTask().execute("http://13.124.85.122:52273/search");
+           // new DownloadWebPageTask().execute("http://13.124.85.122:52273/search");
+          //  Toast.makeText(,"select",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -19,6 +19,7 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
+
 //        View v = inflater.inflate(R.layout.fragment_1,container,false);
 //        ViewPager viewPager = (ViewPager)v.findViewById(R.id.viewpager);
 //        setupViewPaget(viewPager);

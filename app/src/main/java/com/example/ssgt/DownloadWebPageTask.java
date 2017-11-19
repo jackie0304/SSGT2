@@ -2,8 +2,10 @@ package com.example.ssgt;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -18,6 +20,17 @@ import java.net.URL;
  */
 public class DownloadWebPageTask extends AsyncTask< String, Integer, String> {
 
+
+        JSONArray retObj;
+
+        public AsyncResponse delegate = null;
+
+        DownloadWebPageTask(AsyncResponse delegate){
+
+            this.delegate = delegate;
+
+        }
+
         @Override
         protected String doInBackground(String... urls) {
             try{
@@ -30,7 +43,14 @@ public class DownloadWebPageTask extends AsyncTask< String, Integer, String> {
 
         @Override
         protected void onPostExecute(String s) {
+
+            Log.i("onPostExecute",s);
             jsonParsing(s);
+            try {
+                delegate.processFinish(retObj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -39,6 +59,11 @@ public class DownloadWebPageTask extends AsyncTask< String, Integer, String> {
             try{
                 URL url = new URL(myurl);
                 conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("POST");
+//
+//                conn.setRequestProperty("Content-Type","application/json");
+//                conn.setDoOutput(true);
+
                 BufferedInputStream buf = new BufferedInputStream(conn.getInputStream());
                 BufferedReader bufreader = new BufferedReader(new InputStreamReader(buf,"utf-8"));
                 String line = null;
@@ -55,17 +80,43 @@ public class DownloadWebPageTask extends AsyncTask< String, Integer, String> {
 
         void jsonParsing (String file) {
 
+            String id = "";
+            String name = "";
+            String quantity = "";
+            int  no = 0;
+            String area = "";
+
             try {
-                JSONArray jsonArray = new JSONArray(file);
-                for ( int i = 0; i <jsonArray.length(); i++){
-                    JSONObject json = jsonArray.getJSONObject(i);
-                    String id = json.getString("ID");
-                    String name = json.getString("PW");
-                    String quantity = json.getString("Name");
+                retObj = new JSONArray(file);
+                for ( int i = 0; i <retObj.length(); i++){
+                    JSONObject json = retObj.getJSONObject(i);
+
+                    if(json.has("ID"))
+                     id = json.getString("ID");
+                    if(json.has("PW"))
+                     name = json.getString("PW");
+                    if(json.has("Name"))
+                    quantity = json.getString("Name");
+                    if(json.has("no"))
+                    no = json.getInt("no");
+                    if(json.has("area"))
+                     area = json.getString("area");
+
+                    Log.i("jsonParsing:",no+area);
                 }
+
             }catch (Exception e) {
                 Log.i("err :", e.getMessage());
             }
         }
+
+        public interface AsyncResponse{
+
+            void processFinish(JSONArray ret) throws JSONException;
+        }
+
+
+
+
 }
 

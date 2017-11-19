@@ -13,13 +13,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:id="@+id/eid"
         />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:id="@+id/epw"
         />
 
 
@@ -29,6 +29,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/login"
         android:text="Login"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:id="@+id/signin"
+        android:text="SignIn"
         />
 
     <fragment

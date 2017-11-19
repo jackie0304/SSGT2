@@ -1,0 +1,103 @@
+package com.example.ssgt;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class SignInActivity extends AppCompatActivity {
+
+    Button btn_STT;
+
+    EditText nickname;
+    EditText name;
+    EditText pw;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signin);
+
+        nickname = (EditText)findViewById(R.id.signin_nickname);
+        name = (EditText)findViewById(R.id.signin_name);
+        pw = (EditText)findViewById(R.id.signin_pw);
+
+//        btn_STT = (Button)findViewById(R.id);
+//
+//        btn_STT.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getApplicationContext(),STTActivity.class);
+//                startActivity(i);
+//            }
+//        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode){
+
+            case 0:
+                if(resultCode == RESULT_OK) {
+                    nickname.setText(data.getStringExtra("stt_result"));
+                    Toast.makeText(getApplicationContext(),"성공아니냐",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.e("stt error", "실패다!");
+                    Toast.makeText(getApplicationContext(), "실패왜뜨냐", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 1:
+                if(resultCode == RESULT_OK) {
+                    pw.setText(data.getStringExtra("stt_result"));
+                    Toast.makeText(getApplicationContext(),"성공아니냐",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.e("stt error", "실패다!");
+                    Toast.makeText(getApplicationContext(), "실패왜뜨냐", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 2:
+                if(resultCode == RESULT_OK) {
+                    name.setText(data.getStringExtra("stt_result"));
+                    Toast.makeText(getApplicationContext(),"성공아니냐",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.e("stt error", "실패다!");
+                    Toast.makeText(getApplicationContext(), "실패왜뜨냐", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
+
+    }
+
+    public void callSTT(View view) {
+
+        Intent i = new Intent(getApplicationContext(),STTActivity.class);
+
+        switch (view.getId()) {
+            case R.id.btn_nickname:
+
+                startActivityForResult(i, 0);
+                break;
+            case R.id.btn_pw:
+
+                startActivityForResult(i, 1);
+                break;
+            case R.id.btn_name:
+
+                startActivityForResult(i, 2);
+                break;
+
+        }
+
+    }
+}

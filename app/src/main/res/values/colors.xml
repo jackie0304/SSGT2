@@ -7,4 +7,8 @@
     <color name="grayColor">#C6C6CB</color>
     <color name="greenColor">#9ACC61</color>
     <color name="Dcolor">#8FAADC</color>
+    <color name="white">#ffffff</color>
+    <color name="bg_gradient_start">#31244e</color>
+    <color name="bg_gradient_end">#6b394c</color>
+
 </resources>
