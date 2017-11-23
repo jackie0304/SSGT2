@@ -1,12 +1,10 @@
 package com.example.ssgt;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -78,9 +76,9 @@ public class MenuActivity extends AppCompatActivity {
         //frameLayout.setVisibility(View.INVISIBLE);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        fragmentManager.beginTransaction()
-//                .replace(R.id.frameLayout,new LectureActivity())
+//                .replace(R.id.frameLayout,new MentoringActivity())
 //                .commit();
-        Intent intent = new Intent(getApplicationContext(), LectureActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MentoringActivity.class);
         //title.setText("test3");
         startActivity(intent);
     }
@@ -88,7 +86,7 @@ public class MenuActivity extends AppCompatActivity {
         //frameLayout.setVisibility(View.INVISIBLE);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        fragmentManager.beginTransaction()
-//                .replace(R.id.frameLayout,new LectureActivity())
+//                .replace(R.id.frameLayout,new MentoringActivity())
 //                .commit();
         Intent intent = new Intent(getApplicationContext(), ClubActivity.class);
         startActivity(intent);

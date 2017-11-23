@@ -14,11 +14,11 @@ import java.util.ArrayList;
  * Created by seyeon on 2017-10-19.
  */
 
-public class LectureAdapter extends ArrayAdapter<Lecture>{
-    ArrayList<Lecture> items;
+public class MGroupAdapter extends ArrayAdapter<MGroup>{
+    ArrayList<MGroup> items;
     Context context;
 
-    public LectureAdapter(Context context, int resource, ArrayList<Lecture> objects) {
+    public MGroupAdapter(Context context, int resource, ArrayList<MGroup> objects) {
         super(context, resource, objects);
         this.context = context;
         this.items = objects;
@@ -32,17 +32,17 @@ public class LectureAdapter extends ArrayAdapter<Lecture>{
             LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v=layoutInflater.inflate(R.layout.row_lec,parent,false);
         }
-        Lecture getItem = items.get(position);
+        MGroup getItem = items.get(position);
         if(getItem!=null){
             TextView lec_num = (TextView)v.findViewById(R.id.lec_num);
             TextView lec_title = (TextView)v.findViewById(R.id.lec_title);
             TextView lec_city = (TextView)v.findViewById(R.id.lec_city);
             TextView lec_date = (TextView)v.findViewById(R.id.lec_date);
 
-            lec_num.setText(getItem.getLecNum());
-            lec_title.setText(getItem.getLecTitle());
-            lec_city.setText(getItem.getLecCity());
-            lec_date.setText(getItem.getLecDate());
+            lec_num.setText(getItem.getMentoringNum());
+            lec_title.setText(getItem.getMentoringTitle());
+            lec_city.setText(getItem.getMentoringCity());
+            lec_date.setText(getItem.getMentoringDate());
         }
         return v;
     }
