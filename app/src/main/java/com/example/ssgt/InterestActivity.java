@@ -22,10 +22,16 @@ public class InterestActivity extends AppCompatActivity {
     String tmp;
     JSONArray retJson;
     //ArrayList<InterestData> interests;
+    String url;
+    RequestForm req;
+    ArrayList<String> checkedInterest;
 
+    ArrayList<Boolean> isChecked;
+
+    JSONObject userinfo;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private InterestAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<InterestData> myDataset;
 
@@ -39,7 +45,8 @@ public class InterestActivity extends AppCompatActivity {
             retJson = ret;
 
 
-            while(retJson.get(0).equals(null)); //jsonArray가 NULL이면 대기  retJson.isNULL은 안되는지 해보기
+
+
 
             for(int i = 0 ; i< retJson.length(); i++){
 
@@ -47,9 +54,10 @@ public class InterestActivity extends AppCompatActivity {
 
                 String area = json.getString("area");
 
+                isChecked.add(false);
                 myDataset.add(new InterestData(area));
 
-                Toast.makeText(getApplicationContext(),"되나:"+area,Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getApplicationContext(),"되나:"+area,Toast.LENGTH_SHORT).show();
             }
 
             mAdapter.notifyDataSetChanged();
@@ -62,6 +70,16 @@ public class InterestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interest);
 
+        try {
+            userinfo = new JSONObject(getIntent().getStringExtra("userinfo")); //signin 액티비티에서 데이터 받아옴
+
+            Log.e("UserInfo", "Passed UserInfo: " + userinfo.getString("Nickname"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         init();
 
         mRecyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
@@ -71,11 +89,31 @@ public class InterestActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new InterestAdapter(myDataset);
+        mAdapter = new InterestAdapter(myDataset, new InterestAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+
+
+                Toast.makeText(getApplicationContext(),String.valueOf(isChecked.get(position)),Toast.LENGTH_SHORT);
+
+                if(!isChecked.get(position))
+                {
+                    checkedInterest.add(myDataset.get(position).area.toString());
+                    isChecked.set(position,true);
+                    Toast.makeText(getApplicationContext(),""+myDataset.get(position).area.toString()+"add",Toast.LENGTH_SHORT).show();
+
+                }else{
+                    checkedInterest.remove(myDataset.get(position).area.toString());
+                    isChecked.set(position,false);
+                    Toast.makeText(getApplicationContext(),""+myDataset.get(position).area.toString()+"delete",Toast.LENGTH_SHORT).show();
+
+                }
+
+                Log.e("interests",position+checkedInterest.toString());
+
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
-
-
-
 
 
     }
@@ -89,8 +127,14 @@ public class InterestActivity extends AppCompatActivity {
     void init(){
 
         myDataset = new ArrayList<>();
+        checkedInterest = new ArrayList<>();
+        isChecked = new ArrayList<>();
 
-        dwTask.execute("http://13.124.85.122:52273/getInterest");
+        url = "http://13.124.85.122:52273/getInterest";
+        req = new RequestForm(url);
+
+
+        dwTask.execute(req);
 
         complete = (Button)findViewById(R.id.complete);
 
@@ -98,10 +142,56 @@ public class InterestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getApplicationContext(),SignInActivity.class);
-                startActivity(i);
+                JSONArray interests = new JSONArray();
 
-            }
+                for(int i = 0 ; i < checkedInterest.size();i++){
+
+                    JSONObject iObject = new JSONObject();
+
+                    try {
+                        iObject.put("checkedArea",checkedInterest.get(i));
+                        interests.put(iObject);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                try {
+                    userinfo.put("interests",interests);
+                    Log.e("jsoninput",userinfo.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                InsertDataTask insertTask = new InsertDataTask(userinfo);
+
+                url = "http://13.124.85.122:52273/pushData";
+                req = new RequestForm(url);
+
+
+//                for ( int i = 0; i <interests.length(); i++){
+//                    JSONObject json = interests.getJSONObject(i);
+//
+//                    if(json.has("ID"))
+//                        id = json.getString("ID");
+//                    if(json.has("PW"))
+//                        name = json.getString("PW");
+//                    if(json.has("Name"))
+//                        quantity = json.getString("Name");
+//                    if(json.has("no"))
+//                        no = json.getInt("no");
+//                    if(json.has("area"))
+//                        area = json.getString("area");
+
+
+                    insertTask.execute(req);
+
+                Log.e("userinfo 전송","userinfo 전송");
+                }
         });
 
 
@@ -123,4 +213,8 @@ public class InterestActivity extends AppCompatActivity {
         //배열같은곳에 누를때마다 getText해서 뭘 골랐는지 넣어두고
         //선택완료 버튼을 누를때 디비에 넣으면 될것.
     }
+
+
 }
+
+

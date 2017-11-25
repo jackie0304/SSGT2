@@ -1,6 +1,7 @@
 package com.example.ssgt;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -68,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         final Intent i = new Intent(getApplicationContext(), MenuActivity.class);
 
-        final CustomMapFragment map = (CustomMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-        map.getMapAsync(this);
+//        final CustomMapFragment map = (CustomMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//
+//        map.getMapAsync(this);  //구글 맵
 
         //메인메뉴 가는 코드
 //        Toast.makeText(getApplicationContext(), "dd", Toast.LENGTH_LONG);
@@ -99,7 +100,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Toast.makeText(getApplicationContext(),"processFinish:",Toast.LENGTH_SHORT).show();
                             retJson = ret;
 
-                            while(retJson.get(0).equals(null)); //jsonArray가 NULL이면 대기
+                        //    while(retJson.get(0).equals(null)); //jsonArray가 NULL이면 대기
+
+//                            if(retJson == null)
+//                            {
+//                                Toast.makeText(getApplicationContext(),"no Information",Toast.LENGTH_SHORT).show();
+//                                return;
+//                            }
 
                             for(int i = 0 ; i< retJson.length(); i++){
 
@@ -125,12 +132,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     });
 
-                    tmp = dwTask.execute("http://13.124.85.122:52273/search").get();
+                    String url = "http://13.124.85.122:52273/search";
+                    JSONObject loginInfo = new JSONObject();
+                    loginInfo.put("ID",eid.getText().toString());
+
+                    RequestForm req = new RequestForm(url,loginInfo);
+
+                    tmp = dwTask.execute(req).get();
                     Log.i("tmp",tmp);
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -149,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), InterestActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
 
                 startActivity(intent);
             }

@@ -1,21 +1,33 @@
 package com.example.ssgt;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SignInActivity extends AppCompatActivity {
 
     Button btn_STT;
+    Button btn_next;
 
     EditText nickname;
     EditText name;
     EditText pw;
+    EditText id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +37,33 @@ public class SignInActivity extends AppCompatActivity {
         nickname = (EditText)findViewById(R.id.signin_nickname);
         name = (EditText)findViewById(R.id.signin_name);
         pw = (EditText)findViewById(R.id.signin_pw);
+        id = (EditText)findViewById(R.id.signin_id);
 
+        btn_next = (Button)findViewById(R.id.btn_next);
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JSONObject tmp = new JSONObject();
+                try {
+                    tmp.put("Nickname",nickname.getText());
+                    tmp.put("Name",name.getText());
+                    tmp.put("PW",pw.getText());
+                    tmp.put("ID",id.getText());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Intent mIntent = new Intent(getApplicationContext(), InterestActivity.class);
+                mIntent.putExtra("userinfo", tmp.toString());
+                startActivity(mIntent);
+
+            }
+        });
+
+        setUserNumber();
 //        btn_STT = (Button)findViewById(R.id);
 //
 //        btn_STT.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +136,44 @@ public class SignInActivity extends AppCompatActivity {
                 break;
 
         }
+
+    }
+
+
+    void setUserNumber(){  // 번호 읽어서 국제번호로 변환 후 id란에 Setting
+
+
+        TelephonyManager t = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        String phoneNumber = "";
+
+        String main_data[] = {"data1", "is_primary", "data3", "data2", "data1", "is_primary", "photo_uri", "mimetype"}; //번호 가져오기
+        Object object = getContentResolver().query(Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, "data"),
+                main_data, "mimetype=?",
+                new String[]{"vnd.android.cursor.item/phone_v2"},
+                "is_primary DESC");
+        if (object != null) {
+            do {
+                if (!((Cursor) (object)).moveToNext())
+                    break;
+                phoneNumber = ((Cursor) (object)).getString(4);
+                Toast.makeText(getApplicationContext(),phoneNumber,Toast.LENGTH_SHORT).show();
+
+            } while (true);
+            ((Cursor) (object)).close();
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            phoneNumber = PhoneNumberUtils.normalizeNumber(phoneNumber);
+            phoneNumber= PhoneNumberUtils.formatNumberToE164(phoneNumber,t.getNetworkCountryIso().toUpperCase());
+            Toast.makeText(getApplicationContext(),phoneNumber,Toast.LENGTH_SHORT).show();
+            id.setText(phoneNumber);
+            id.setEnabled(false);
+        }
+
+
+
 
     }
 }

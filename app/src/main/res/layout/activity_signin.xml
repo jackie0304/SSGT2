@@ -13,9 +13,18 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
 
-        >
+        <TableRow>
+
+            <EditText
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signin_id"
+                />
+
+        </TableRow>
     <TableRow>
 
     <EditText
@@ -23,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/signin_nickname"
+        android:hint="nickname"
         />
     <ImageButton
         android:layout_weight="1"
@@ -41,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/signin_pw"
+                android:hint="password"
                 />
             <ImageButton
                 android:layout_weight="1"
@@ -58,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/signin_name"
+                android:hint="name"
                 />
             <ImageButton
                 android:layout_weight="1"
@@ -73,14 +85,14 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:id="@+id/signin_next"
+        android:id="@+id/btn_next"
         android:text="next"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:id="@+id/signin_cancel"
+        android:id="@+id/btn_cancel"
         android:text="cancel"
         />
 
