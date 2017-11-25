@@ -165,8 +165,6 @@ public class InterestActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
-
                 InsertDataTask insertTask = new InsertDataTask(userinfo);
 
                 url = "http://13.124.85.122:52273/pushData";
